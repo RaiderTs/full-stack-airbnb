@@ -1,3 +1,4 @@
+import ClientOnly from '@/app/components/ClientOnly';
 import Navbar from '@/app/components/navbar/Navbar';
 import { Nunito } from 'next/font/google';
 
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={font.className}>
-        <Navbar />
+        <ClientOnly>
+          <Navbar />
+        </ClientOnly>
         {children}
       </body>
     </html>
