@@ -6,6 +6,7 @@ import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
 import { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import Modal from '@/app/components/modals/Modal';
@@ -39,7 +40,7 @@ const RegisterModal: FC<RegisterModalProps> = ({}) => {
         registerModal.onClose();
       })
       .catch((error) => {
-        console.log(error);
+        toast.error('Something went wrong');
       })
       .finally(() => {
         setIsLoading(false);
@@ -53,6 +54,23 @@ const RegisterModal: FC<RegisterModalProps> = ({}) => {
         id={'email'}
         register={register}
         label={'Email'}
+        disabled={isLoading}
+        errors={errors}
+        required
+      />
+      <Input
+        id={'name'}
+        register={register}
+        label={'Name'}
+        disabled={isLoading}
+        errors={errors}
+        required
+      />
+      <Input
+        id={'password'}
+        type={'password'}
+        register={register}
+        label={'Password'}
         disabled={isLoading}
         errors={errors}
         required
