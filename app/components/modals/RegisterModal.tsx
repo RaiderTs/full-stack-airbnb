@@ -10,6 +10,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import Modal from '@/app/components/modals/Modal';
 import Heading from '@/app/components/Heading';
+import Input from '@/app/components/inputs/Input';
 
 interface RegisterModalProps {}
 
@@ -47,7 +48,15 @@ const RegisterModal: FC<RegisterModalProps> = ({}) => {
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
-      <Heading title='Welcome to Airbnb' subtitle='Create an account'  />
+      <Heading title='Welcome to Airbnb' subtitle='Create an account' />
+      <Input
+        id={'email'}
+        register={register}
+        label={'Email'}
+        disabled={isLoading}
+        errors={errors}
+        required
+      />
     </div>
   );
 
