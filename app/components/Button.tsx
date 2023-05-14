@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import { IconType } from 'react-icons';
 
@@ -20,6 +22,8 @@ const Button: FC<ButtonProps> = ({
 }) => {
   return (
     <button
+      onClick={onClick}
+      disabled={disabled}
       className={`relative disabled:opacity-70 disabled:cursor-not-allowed rounded-lg hover:opacity-80 transition w-full
   ${outline ? 'bg-white' : 'bg-rose-500'}
   ${outline ? 'border-black' : 'border-rose-500'}
@@ -30,7 +34,7 @@ const Button: FC<ButtonProps> = ({
   ${small ? 'border-[1px]' : 'border-2'}
   `}
     >
-      {Icon && <Icon size={24} className='absolute left-4 top-3'/>}
+      {Icon && <Icon size={24} className='absolute left-4 top-3' />}
       {label}
     </button>
   );
