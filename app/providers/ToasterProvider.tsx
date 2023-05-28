@@ -7,4 +7,3 @@ const ToasterProvider = ({}) => {
 };
 
 export default ToasterProvider;
-// 1.52
