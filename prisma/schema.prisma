@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
+  name           String?
   email          String?   @unique
   emailVerified  DateTime?
   image          String?
@@ -21,16 +21,16 @@ model User {
   updatedAt      DateTime  @updatedAt
   favoriteIds    String[]  @db.ObjectId
 
-  accounts    Account[]
-  lisings     Listing[]
-  reservatons Reservation[]
+  accounts     Account[]
+  listings     Listing[]
+  reservations Reservation[]
 }
 
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId
   type              String
-  prvider           String
+  provider          String
   providerAccountId String
   refresh_token     String? @db.String
   access_token      String? @db.String
@@ -38,11 +38,11 @@ model Account {
   token_type        String?
   scope             String?
   id_token          String? @db.String
-  session_stste     String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([prvider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Listing {
@@ -75,3 +75,4 @@ model Reservation {
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 }
+
