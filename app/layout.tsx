@@ -1,6 +1,7 @@
 import ClientOnly from '@/app/components/ClientOnly';
 import RegisterModal from './components/modals/RegisterModal';
 import LoginModal from '@/app/components/modals/LoginModal';
+import RentModal from '@/app/components/modals/RentModal';
 import Navbar from '@/app/components/navbar/Navbar';
 import { Nunito } from 'next/font/google';
 import './globals.css';
@@ -27,6 +28,7 @@ export default async function RootLayout({
       <body className={font.className} suppressHydrationWarning={true}>
         <ClientOnly>
           <ToasterProvider />
+          <RentModal />
           <LoginModal />
           <RegisterModal />
           <Navbar currentUser={currentUser} />

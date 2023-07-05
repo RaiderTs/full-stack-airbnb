@@ -11,7 +11,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
 import useRegisterModal from '@/app/hooks/useRegisterModal';
-import useLoginModal from '@/app/hooks/useLoginModal ';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
 import Modal from '@/app/components/modals/Modal';
 import Heading from '@/app/components/Heading';
@@ -22,8 +22,10 @@ interface LoginModalProps {}
 
 const LoginModal: FC<LoginModalProps> = ({}) => {
   const router = useRouter();
+
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -53,6 +55,11 @@ const LoginModal: FC<LoginModalProps> = ({}) => {
       }
     });
   };
+
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
@@ -95,13 +102,13 @@ const LoginModal: FC<LoginModalProps> = ({}) => {
       <div className='text-neutral-500 text-center mt-4 font-light'>
         <div className='flex flex-row justify-center gap-2 text-center'>
           <div>
-            <div>Already have an account?</div>
+            <div>First time using Airbnb?</div>
           </div>
           <div
             className='text-neutral-800 cursor-pointer hover:underline'
-            onClick={registerModal.onClose}
+            onClick={toggle}
           >
-            <div>Log in</div>
+            <div>Create an account</div>
           </div>
         </div>
       </div>
