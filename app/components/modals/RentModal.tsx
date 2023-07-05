@@ -9,6 +9,7 @@ import Heading from '@/app/components/Heading';
 import Modal from '@/app/components/modals/Modal';
 import { categories } from '@/app/components/navbar/Categories';
 import CategoryInput from '@/app/components/inputs/CategoryInput';
+import CountrySelect from '@/app/components/inputs/CountrySelect';
 
 interface RentModalProps {}
 
@@ -102,6 +103,18 @@ const RentModal: FC<RentModalProps> = ({}) => {
     </div>
   );
 
+  if (step === STEPS.LOCATION) {
+    bodyContent = (
+      <div className='flex flex-col gap-8'>
+        <Heading
+          title='Were is your place located?'
+          subtitle='Help quests find you!'
+        />
+        <CountrySelect />
+      </div>
+    );
+  }
+
   return (
     <Modal
       //   disabled={}
@@ -111,7 +124,7 @@ const RentModal: FC<RentModalProps> = ({}) => {
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
       onClose={rentModal.onClose}
-      onSubmit={rentModal.onClose}
+      onSubmit={onNext}
       body={bodyContent}
       //   footer={}
     />
