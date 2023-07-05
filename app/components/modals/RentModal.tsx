@@ -11,6 +11,7 @@ import Modal from '@/app/components/modals/Modal';
 import { categories } from '@/app/components/navbar/Categories';
 import CategoryInput from '@/app/components/inputs/CategoryInput';
 import CountrySelect from '@/app/components/inputs/CountrySelect';
+import Counter from '@/app/components/inputs/Counter';
 
 interface RentModalProps {}
 
@@ -51,9 +52,13 @@ const RentModal: FC<RentModalProps> = ({}) => {
 
   const category = watch('category');
   const location = watch('location');
+  const guestCount = watch('guestCount');
+  const roomCount = watch('roomCount');
+  const bathroomCount = watch('bathroomCount');
 
   const Map = useMemo(
     () => dynamic(() => import('@/app/components/Map'), { ssr: false }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [location]
   );
 
@@ -123,6 +128,37 @@ const RentModal: FC<RentModalProps> = ({}) => {
         />
 
         <Map center={location?.latlng} />
+      </div>
+    );
+  }
+
+  if (step === STEPS.INFO) {
+    bodyContent = (
+      <div className='flex flex-col gap-8'>
+        <Heading
+          title='Share some basics about your place'
+          subtitle='What amenities do you have?'
+        />
+        <Counter
+          title={'Guests'}
+          subtitle='How many guests do you allow?'
+          value={roomCount}
+          onChange={(value) => setCustomValue('roomCount', value)}
+        />
+        <hr />
+        <Counter
+          title={'Rooms'}
+          subtitle='How many rooms do you have?'
+          value={guestCount}
+          onChange={(value) => setCustomValue('guestCount', value)}
+        />
+        <hr />
+        <Counter
+          title={'Bathrooms'}
+          subtitle='How many bathrooms do you have?'
+          value={bathroomCount}
+          onChange={(value) => setCustomValue('bathroomCount', value)}
+        />
       </div>
     );
   }
