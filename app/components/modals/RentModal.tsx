@@ -100,7 +100,7 @@ const RentModal: FC<RentModalProps> = ({}) => {
         router.refresh();
         reset();
         setStep(STEPS.CATEGORY);
-        rentModal.onClose;
+        rentModal.onClose();
       })
       .catch(() => toast.error('Something went wrong'))
       .finally(() => setIsLoading(false));
@@ -258,7 +258,6 @@ const RentModal: FC<RentModalProps> = ({}) => {
 
   return (
     <Modal
-      //   disabled={}
       isOpen={rentModal.isOpen}
       title={'Airbnb your home!'}
       actionLabel={actionLabel}
@@ -267,7 +266,6 @@ const RentModal: FC<RentModalProps> = ({}) => {
       onClose={rentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
-      //   footer={}
     />
   );
 };
