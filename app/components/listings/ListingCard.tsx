@@ -108,3 +108,4 @@ const ListingCard: FC<ListingCardProps> = ({
 };
 
 export default ListingCard;
+
