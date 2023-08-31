@@ -1,26 +1,24 @@
 'use client';
 
 import axios from 'axios';
-import { FC } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
+import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
 import { useCallback, useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import useRegisterModal from '@/app/hooks/useRegisterModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
-import Modal from '@/app/components/modals/Modal';
-import Heading from '@/app/components/Heading';
-import Input from '@/app/components/inputs/Input';
-import Button from '@/app/components/Button';
-import { signIn } from 'next-auth/react';
+import useRegisterModal from '@/app/hooks/useRegisterModal';
 
-interface RegisterModalProps {}
+import Modal from './Modal';
+import Input from '../inputs/Input';
+import Heading from '../Heading';
+import Button from '../Button';
 
-const RegisterModal: FC<RegisterModalProps> = ({}) => {
-  const loginModal = useLoginModal();
+const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -41,46 +39,48 @@ const RegisterModal: FC<RegisterModalProps> = ({}) => {
     axios
       .post('/api/register', data)
       .then(() => {
+        toast.success('Registered!');
         registerModal.onClose();
+        loginModal.onOpen();
       })
       .catch((error) => {
-        toast.error('Something went wrong');
+        toast.error(error);
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
 
-  const toggle = useCallback(() => {
-    loginModal.onOpen();
+  const onToggle = useCallback(() => {
     registerModal.onClose();
-  }, [loginModal, registerModal]);
+    loginModal.onOpen();
+  }, [registerModal, loginModal]);
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
-      <Heading title='Welcome to Airbnb' subtitle='Create an account' />
+      <Heading title='Welcome to Airbnb' subtitle='Create an account!' />
       <Input
-        id={'email'}
-        register={register}
-        label={'Email'}
+        id='email'
+        label='Email'
         disabled={isLoading}
+        register={register}
         errors={errors}
         required
       />
       <Input
-        id={'name'}
-        register={register}
-        label={'Name'}
+        id='name'
+        label='Name'
         disabled={isLoading}
+        register={register}
         errors={errors}
         required
       />
       <Input
-        id={'password'}
-        type={'password'}
-        register={register}
-        label={'Password'}
+        id='password'
+        label='Password'
+        type='password'
         disabled={isLoading}
+        register={register}
         errors={errors}
         required
       />
@@ -92,28 +92,38 @@ const RegisterModal: FC<RegisterModalProps> = ({}) => {
       <hr />
       <Button
         outline
-        label={'Continue with Google'}
+        label='Continue with Google'
         icon={FcGoogle}
         onClick={() => signIn('google')}
       />
       <Button
         outline
-        label={'Continue with Github'}
+        label='Continue with Github'
         icon={AiFillGithub}
         onClick={() => signIn('github')}
       />
-      <div className='text-neutral-500 text-center mt-4 font-light'>
-        <div className='flex flex-row justify-center gap-2 text-center'>
-          <div>
-            <div>Already have an account?</div>
-          </div>
-          <div
-            className='text-neutral-800 cursor-pointer hover:underline'
-            onClick={toggle}
+      <div
+        className='
+          text-neutral-500 
+          text-center 
+          mt-4 
+          font-light
+        '
+      >
+        <p>
+          Already have an account?
+          <span
+            onClick={onToggle}
+            className='
+              text-neutral-800
+              cursor-pointer 
+              hover:underline
+            '
           >
-            <div>Log in</div>
-          </div>
-        </div>
+            {' '}
+            Log in
+          </span>
+        </p>
       </div>
     </div>
   );
@@ -122,8 +132,8 @@ const RegisterModal: FC<RegisterModalProps> = ({}) => {
     <Modal
       disabled={isLoading}
       isOpen={registerModal.isOpen}
-      title={'Register'}
-      actionLabel={'Continue'}
+      title='Register'
+      actionLabel='Continue'
       onClose={registerModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
