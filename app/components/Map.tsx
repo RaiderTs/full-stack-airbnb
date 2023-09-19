@@ -1,6 +1,5 @@
 'use client';
 
-import { FC } from 'react';
 import L from 'leaflet';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 
@@ -13,7 +12,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl: markerIcon.src,
-  iconRetina: markerIcon2x.src,
+  iconRetinaUrl: markerIcon2x.src,
   shadowUrl: markerShadow.src,
 });
 
@@ -21,7 +20,11 @@ interface MapProps {
   center?: number[];
 }
 
-const Map: FC<MapProps> = ({ center }) => {
+const url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const attribution =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+const Map: React.FC<MapProps> = ({ center }) => {
   return (
     <MapContainer
       center={(center as L.LatLngExpression) || [51, -0.09]}
@@ -29,13 +32,13 @@ const Map: FC<MapProps> = ({ center }) => {
       scrollWheelZoom={false}
       className='h-[35vh] rounded-lg'
     >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-      />
+      <TileLayer url={url} attribution={attribution} />
       {center && <Marker position={center as L.LatLngExpression} />}
     </MapContainer>
   );
 };
 
 export default Map;
+
+
+//  16:17
